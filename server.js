@@ -56,7 +56,7 @@ app.get('/signup', function (req, res) {
 app.get('/profile', function (req, res) {
   // finds user currently logged in
   req.currentUser(function (err, user) {
-    res.send('Welcome ' + user.email);
+    res.send('Welcome ' + user.email + '! <br> <a href="/logout">Click to log out</a>');
   });
 });
 
