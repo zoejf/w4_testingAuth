@@ -47,9 +47,9 @@ app.set('view engine', 'ejs');
     next();
   });
 
-// signup route with placeholder response
+// signup route
 app.get('/signup', function (req, res) {
-  res.send('coming soon');
+    res.render('signup');
 });
 
 // user profile page
@@ -60,6 +60,11 @@ app.get('/profile', function (req, res) {
   });
 });
 
+// login route (renders login view)
+app.get('/login', function (req, res) {
+  res.render('login');
+});
+
 // user submits the signup form
 app.post('/users', function (req, res) {
 
@@ -68,8 +73,8 @@ app.post('/users', function (req, res) {
 
   // create new user with secure password
   User.createSecure(newUser.email, newUser.password, function (err, user) {
-    res.send(user);
-  });
+    res.redirect('/login');
+  });     
 });
 
 // user submits the login form
@@ -83,15 +88,12 @@ app.post('/login', function (req, res) {
      // saves user id to session
      req.login(user);
 
-     // redirect to user profile
+     // // redirect to user profile
      res.redirect('/profile');
    });
+
 });
 
-// login route (renders login view)
-app.get('/login', function (req, res) {
-  res.render('login');
-});
 
 
 // listen on port 3000
