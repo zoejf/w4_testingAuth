@@ -94,6 +94,15 @@ app.post('/login', function (req, res) {
 
 });
 
+//user clicks the logout button
+app.get('/logout', function (req, res) {
+
+  //set session.userId and user to null
+  req.logout();
+  //go back to login page
+  res.redirect('/login');
+});
+
 
 
 // listen on port 3000
