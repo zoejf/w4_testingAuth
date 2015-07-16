@@ -47,22 +47,42 @@ app.set('view engine', 'ejs');
     next();
   });
 
-// signup route
+// signup route -- logged in users are not authorized here
 app.get('/signup', function (req, res) {
-    res.render('signup');
+    // finds user currently logged in
+    req.currentUser(function (err, user) {
+      //if there is a user, send them to profile
+        if (user) {
+          res.redirect('/profile');
+          //if not, send them to sign up
+        } else {
+          res.render('signup');
+        }
+    });
 });
 
-// user profile page
+// user profile page route
 app.get('/profile', function (req, res) {
   // finds user currently logged in
   req.currentUser(function (err, user) {
-    res.send('Welcome ' + user.email + '! <br> <a href="/logout">Click to log out</a>');
+      if (user) {
+          res.send('Welcome ' + user.email + '! <br> <a href="/logout">Click to log out</a>');
+      } else {
+        res.redirect('/login');
+      }
   });
 });
 
-// login route (renders login view)
+// login route (renders login view) -- logged in users are not authorized here
 app.get('/login', function (req, res) {
-  res.render('login');
+    // finds user currently logged in
+    req.currentUser(function (err, user) {
+        if (user) {
+          res.redirect('/profile');
+        } else {
+          res.render('login');
+        }
+  });
 });
 
 // user submits the signup form
